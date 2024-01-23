@@ -1,9 +1,14 @@
 package com.macro.serviceedu.controller;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.macro.commonutils.R;
+import com.macro.serviceedu.entity.EduCourse;
+import com.macro.serviceedu.entity.vo.CourseInfoVO;
+import com.macro.serviceedu.entity.vo.CoursePublishVo;
+import com.macro.serviceedu.entity.vo.CourseQuery;
+import com.macro.serviceedu.service.EduCourseService;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,16 +19,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.macro.commonutils.R;
-import com.macro.serviceedu.entity.EduCourse;
-import com.macro.serviceedu.entity.vo.CourseInfoVO;
-import com.macro.serviceedu.entity.vo.CoursePublishVo;
-import com.macro.serviceedu.entity.vo.CourseQuery;
-import com.macro.serviceedu.service.EduCourseService;
-
-import io.swagger.annotations.ApiOperation;
+import javax.annotation.Resource;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -36,19 +33,20 @@ public class EduCourseController {
     /**
      * 课程列表分页查询
      *
-     * @param current 当前页
-     * @param limit 每页记录数
+     * @param current     当前页
+     * @param limit       每页记录数
      * @param courseQuery 查询条件
      * @return 课程列表
      */
     @PostMapping("/{current}/{limit}")
     public R getCourseList(@PathVariable final Long current, @PathVariable final Long limit,
-        @RequestBody final CourseQuery courseQuery) {
+                           @RequestBody final CourseQuery courseQuery) {
         final Page<EduCourse> eduCoursePage = new Page<>(current, limit);
         final QueryWrapper<EduCourse> queryWrapper = new QueryWrapper<>();
-        queryWrapper.like(ObjectUtils.isNotEmpty(courseQuery.getTitle()), "title", courseQuery.getTitle())
-            .eq(ObjectUtils.isNotEmpty(courseQuery.getStatus()), "status", courseQuery.getStatus())
-            .orderByDesc("gmt_create");
+        queryWrapper
+                .like(ObjectUtils.isNotEmpty(courseQuery.getTitle()), "title", courseQuery.getTitle())
+                .eq(ObjectUtils.isNotEmpty(courseQuery.getStatus()), "status", courseQuery.getStatus())
+                .orderByDesc("gmt_create");
 
         courseService.page(eduCoursePage, queryWrapper);
         final Long total = eduCoursePage.getTotal();

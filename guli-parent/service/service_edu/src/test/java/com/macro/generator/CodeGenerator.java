@@ -28,7 +28,7 @@ public class CodeGenerator {
         final String projectPath = System.getProperty("user.dir");
         // gc.setOutputDir(projectPath + "/src/main/java"); //
         // 这种方式会生成在当前module中的src/main/java下,推荐写成绝对路径,如下:
-        gc.setOutputDir("/Users/mac/Desktop/guli-online/guli_parent/service/service_edu" + "/src/main/java");
+        gc.setOutputDir("/Users/mac/Desktop/guli-online/guli-parent/service/service_edu" + "/src/main/java");
         gc.setAuthor("macro");
         gc.setOpen(false); // 生成后是否打开资源管理器
         gc.setFileOverride(false); // 重新生成时文件是否覆盖
@@ -64,7 +64,7 @@ public class CodeGenerator {
 
         // 5、策略配置
         final StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("edu_chapter", "edu_course", "edu_course_description", "edu_video");
+        strategy.setInclude("edu_comment");
         strategy.setNaming(NamingStrategy.underline_to_camel); // 数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); // 生成实体时去掉表前缀
 

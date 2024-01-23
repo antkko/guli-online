@@ -10,7 +10,12 @@ import lombok.Data;
 @Data
 public class VideoVo {
 
-  private String id;
+    /* 视频id */
+    private String id;
 
-  private String title;
+    /* 视频名称 */
+    private String title;
+
+    /* 视频id */
+    private String videoSourceId;
 }
